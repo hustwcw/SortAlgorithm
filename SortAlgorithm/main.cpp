@@ -7,9 +7,10 @@
 //
 
 #include <iostream>
-#include <windows.h>
+#include <ctime>
 
-#define ArrayLen	0x7fff
+
+#define ArrayLen	0xfffff
 
 
 using namespace std;
@@ -121,38 +122,39 @@ int main(int argc, const char * argv[])
     
     // insert code here...
     int *array = new int[ArrayLen];
-	int startClock, endClock;
+	clock_t startClock, endClock;
 
     generateRandArray(array, ArrayLen);
-	startClock = GetTickCount();
-    selectionSort(array, ArrayLen);
-    endClock = GetTickCount();
+	startClock = clock();
+    //selectionSort(array, ArrayLen);
+    endClock = clock();
 	cout << "Selection Sort Time: " << endClock - startClock << endl;
 
 
 	generateRandArray(array, ArrayLen);
-	startClock = GetTickCount();
-    insertionSort(array, ArrayLen);
-    endClock = GetTickCount();
+	startClock = clock();
+    //insertionSort(array, ArrayLen);
+    endClock = clock();
 	cout << "Insertion Sort Time: " << endClock - startClock << endl;
     
 	generateRandArray(array, ArrayLen);
-	startClock = GetTickCount();
-    bubbleSort(array, ArrayLen);
-    endClock = GetTickCount();
+	startClock = clock();
+    //bubbleSort(array, ArrayLen);
+    endClock = clock();
 	cout << "Bubble Sort Time: " << endClock - startClock << endl;
     
 	generateRandArray(array, ArrayLen);
-	startClock = GetTickCount();
+	startClock = clock();
     shellSort(array, ArrayLen);
-    endClock = GetTickCount();
+    endClock = clock();
 	cout << "Shell Sort Time: " << endClock - startClock << endl;
 
 	generateRandArray(array, ArrayLen);
-	startClock = GetTickCount();
+	startClock = clock();
     quickSort(array, 0, ArrayLen-1);
-	endClock = GetTickCount();
+	endClock = clock();
 	cout << "Quick Sort Time: " << endClock - startClock << endl;
+
 
 	system("pause");
     return 0;
