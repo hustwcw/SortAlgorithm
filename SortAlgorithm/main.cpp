@@ -156,8 +156,44 @@ void quickSort2(int *a, int size)
 				paraStack.push(i+2);
 				paraStack.push(end);
 			}
+	}
+}
 
 
+void quickSort3(int *a, int size)
+{
+	int mystack[64];
+	int top=-1;
+	mystack[++top] = 0;
+	mystack[++top] = size-1;
+
+	while (top>0)
+	{
+		int end = mystack[top--];
+		int start = mystack[top--];
+
+		int x = a[end];
+		int i = start-1;
+		int j=start;
+		for (int j = start; j < end; j++)
+		{
+			if (a[j] < x)
+			{
+				i++;
+				exch(a[i], a[j]);
+			}
+		}
+		exch(a[i+1], a[end]);
+		if (start < i)
+		{
+			mystack[++top]=start;
+			mystack[++top]=i;
+		}
+		if (i+2 < end)
+		{
+			mystack[++top] = i+2;
+			mystack[++top] = end;
+		}
 	}
 }
 
@@ -212,13 +248,13 @@ int main(int argc, const char * argv[])
 
 	generateRandArray(array, ArrayLen);
 	startClock = clock();
-    quickSort(array, 0, ArrayLen-1);
+    //quickSort(array, 0, ArrayLen-1);
 	endClock = clock();
 	cout << "Quick Sort Time: " << endClock - startClock << endl;
 
 	generateRandArray(array, ArrayLen);
 	startClock = clock();
-    quickSort1(array, 0, ArrayLen-1);
+    //quickSort1(array, 0, ArrayLen-1);
 	endClock = clock();
 	cout << "Quick Sort1 Time: " << endClock - startClock << endl;
 
@@ -227,9 +263,14 @@ int main(int argc, const char * argv[])
 	startClock = clock();
     //quickSort2(array, ArrayLen);
 	endClock = clock();
-	cout << "No Recursive Quick Sort Time: " << endClock - startClock << endl;
+	cout << "No Recursive Quick Sort Time(stl stack): " << endClock - startClock << endl;
 	//printArray(array, 30, "No Recursive Quick Sort");
 
+	generateRandArray(array, ArrayLen);
+	startClock = clock();
+    quickSort3(array, ArrayLen);
+	endClock = clock();
+	cout << "No Recursive Quick Sort Time(custom stack): " << endClock - startClock << endl;
 
 	system("pause");
     return 0;
