@@ -8,7 +8,7 @@
 
 #include <iostream>
 #include <ctime>
-
+#include <stack>
 
 #define ArrayLen	0xfffff
 
@@ -100,6 +100,66 @@ void quickSort(int *a, int start, int end)
 	}
 }
 
+void quickSort1(int *a, int start, int end)
+{
+	if (start < end)
+	{
+		int x = a[end];
+		int i = start-1;
+		int j=start;
+		for (int j = start; j < end; j++)
+		{
+			if (a[j] < x)
+			{
+				i++;
+				exch(a[i], a[j]);
+			}
+		}
+		exch(a[i+1], a[end]);
+		quickSort1(a, start, i);
+		quickSort1(a, i+2, end);
+	}
+}
+
+void quickSort2(int *a, int size)
+{
+	stack<int> paraStack;
+	paraStack.push(0);
+	paraStack.push(size-1);
+
+	while (!paraStack.empty())
+	{
+		int end = paraStack.top();
+		paraStack.pop();
+		int start = paraStack.top();
+		paraStack.pop();
+
+			int x = a[end];
+			int i = start-1;
+			int j=start;
+			for (int j = start; j < end; j++)
+			{
+				if (a[j] < x)
+				{
+					i++;
+					exch(a[i], a[j]);
+				}
+			}
+			exch(a[i+1], a[end]);
+			if (start < i)
+			{
+				paraStack.push(start);
+				paraStack.push(i);
+			}
+			if (i+2 < end)
+			{
+				paraStack.push(i+2);
+				paraStack.push(end);
+			}
+
+
+	}
+}
 
 void printArray(int *a, int length, string prefix)
 {
@@ -112,9 +172,10 @@ void printArray(int *a, int length, string prefix)
 
 void generateRandArray(int *array, int size)
 {
+	srand((unsigned)clock());
 	for (int i = 0; i < size; i++)
 	{
-		array[i] = rand();
+		array[i] = rand()+rand();
 	}
 }
 int main(int argc, const char * argv[])
@@ -145,7 +206,7 @@ int main(int argc, const char * argv[])
     
 	generateRandArray(array, ArrayLen);
 	startClock = clock();
-    shellSort(array, ArrayLen);
+    //shellSort(array, ArrayLen);
     endClock = clock();
 	cout << "Shell Sort Time: " << endClock - startClock << endl;
 
@@ -154,6 +215,20 @@ int main(int argc, const char * argv[])
     quickSort(array, 0, ArrayLen-1);
 	endClock = clock();
 	cout << "Quick Sort Time: " << endClock - startClock << endl;
+
+	generateRandArray(array, ArrayLen);
+	startClock = clock();
+    quickSort1(array, 0, ArrayLen-1);
+	endClock = clock();
+	cout << "Quick Sort1 Time: " << endClock - startClock << endl;
+
+
+	generateRandArray(array, ArrayLen);
+	startClock = clock();
+    //quickSort2(array, ArrayLen);
+	endClock = clock();
+	cout << "No Recursive Quick Sort Time: " << endClock - startClock << endl;
+	//printArray(array, 30, "No Recursive Quick Sort");
 
 
 	system("pause");
