@@ -7,6 +7,10 @@
 //
 
 #include <iostream>
+#include <windows.h>
+
+#define ArrayLen	0x7fff
+
 
 using namespace std;
 
@@ -66,37 +70,91 @@ void shellSort(int *a, int length)
     }
 }
 
+
+
+int partition(int *a, int start, int end)
+{
+	int x = a[end];
+	int i = start-1;
+	int j=start;
+	for (int j = start; j < end; j++)
+	{
+		if (a[j] < x)
+		{
+			i++;
+			exch(a[i], a[j]);
+		}
+	}
+	exch(a[i+1], a[end]);
+
+	return i+1;
+}
+void quickSort(int *a, int start, int end)
+{
+	if (start < end)
+	{
+		int p = partition(a, start, end);
+		quickSort(a, start, p-1);
+		quickSort(a, p+1, end);
+	}
+}
+
+
 void printArray(int *a, int length, string prefix)
 {
-    cout << prefix;
+    cout << prefix.c_str();
     for (int i = 0; i < length; i++) {
         cout << a[i] << "\t";
     }
     cout << endl;
 }
+
+void generateRandArray(int *array, int size)
+{
+	for (int i = 0; i < size; i++)
+	{
+		array[i] = rand();
+	}
+}
 int main(int argc, const char * argv[])
 {
     
     // insert code here...
-    int arrayLen = 20;
-    int *array = new int[arrayLen];
-    for (int i = 0; i < arrayLen; i++) {
-        array[i] = rand()/10000000;
-    }
+    int *array = new int[ArrayLen];
+	int startClock, endClock;
+
+    generateRandArray(array, ArrayLen);
+	startClock = GetTickCount();
+    selectionSort(array, ArrayLen);
+    endClock = GetTickCount();
+	cout << "Selection Sort Time: " << endClock - startClock << endl;
+
+
+	generateRandArray(array, ArrayLen);
+	startClock = GetTickCount();
+    insertionSort(array, ArrayLen);
+    endClock = GetTickCount();
+	cout << "Insertion Sort Time: " << endClock - startClock << endl;
     
-    printArray(array, arrayLen, "Before Sort:\t\t");
+	generateRandArray(array, ArrayLen);
+	startClock = GetTickCount();
+    bubbleSort(array, ArrayLen);
+    endClock = GetTickCount();
+	cout << "Bubble Sort Time: " << endClock - startClock << endl;
     
-    selectionSort(array, arrayLen);
-    printArray(array, arrayLen, "Selection Sort:\t");
-    
-    insertionSort(array, arrayLen);
-    printArray(array, arrayLen, "Insertion Sort:\t");
-    
-    bubbleSort(array, arrayLen);
-    printArray(array, arrayLen, "Bubble Sort:\t\t");
-    
-    shellSort(array, arrayLen);
-    printArray(array, arrayLen, "Shell Sort:\t\t");
+	generateRandArray(array, ArrayLen);
+	startClock = GetTickCount();
+    shellSort(array, ArrayLen);
+    endClock = GetTickCount();
+	cout << "Shell Sort Time: " << endClock - startClock << endl;
+
+	generateRandArray(array, ArrayLen);
+	startClock = GetTickCount();
+    quickSort(array, 0, ArrayLen-1);
+	endClock = GetTickCount();
+	cout << "Quick Sort Time: " << endClock - startClock << endl;
+
+	system("pause");
     return 0;
 }
 
