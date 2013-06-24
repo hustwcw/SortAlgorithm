@@ -9,10 +9,9 @@
 #include <iostream>
 #include <ctime>
 #include <stack>
-#include <windows.h>
 
 
-#define ArrayLen	0xffffff
+#define ArrayLen	0xfffff
 
 
 using namespace std;
@@ -79,7 +78,6 @@ int partition(int *a, int start, int end)
 {
 	int x = a[end];
 	int i = start-1;
-	int j=start;
 	for (int j = start; j < end; j++)
 	{
 		if (a[j] < x)
@@ -104,23 +102,26 @@ void quickSort(int *a, int start, int end)
 
 void quickSort1(int *a, int start, int end)
 {
-	if (start < end)
-	{
-		int x = a[end];
-		int i = start-1;
-		int j=start;
-		for (int j = start; j < end; j++)
-		{
-			if (a[j] < x)
-			{
-				i++;
-				exch(a[i], a[j]);
-			}
-		}
-		exch(a[i+1], a[end]);
-		quickSort1(a, start, i);
-		quickSort1(a, i+2, end);
-	}
+    int x = a[end];
+    int i = start-1;
+    for (int j = start; j < end; j++)
+    {
+        if (a[j] < x)
+        {
+            i++;
+            exch(a[i], a[j]);
+        }
+    }
+    exch(a[i+1], a[end]);
+    if (start < i)
+    {
+        quickSort1(a, start, i);
+    }
+    if (i+2 < end)
+    {
+        quickSort1(a, i+2, end);
+    }
+    
 }
 
 void quickSort2(int *a, int size)
@@ -138,7 +139,6 @@ void quickSort2(int *a, int size)
 
 			int x = a[end];
 			int i = start-1;
-			int j=start;
 			for (int j = start; j < end; j++)
 			{
 				if (a[j] < x)
@@ -164,7 +164,7 @@ void quickSort2(int *a, int size)
 
 void quickSort3(int *a, int size)
 {
-	int mystack[64];
+	int mystack[100];
 	int top=-1;
 	mystack[++top] = 0;
 	mystack[++top] = size-1;
@@ -176,7 +176,6 @@ void quickSort3(int *a, int size)
 
 		int x = a[end];
 		int i = start-1;
-		int j=start;
 		for (int j = start; j < end; j++)
 		{
 			if (a[j] < x)
