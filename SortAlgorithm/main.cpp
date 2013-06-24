@@ -9,13 +9,15 @@
 #include <iostream>
 #include <ctime>
 #include <stack>
+#include <windows.h>
 
-#define ArrayLen	0xfffff
+
+#define ArrayLen	0xffffff
 
 
 using namespace std;
 
-void exch(int &a, int &b)
+inline void exch(int &a, int &b)
 {
     int temp = a;
     a = b;
@@ -127,7 +129,7 @@ void quickSort2(int *a, int size)
 	paraStack.push(0);
 	paraStack.push(size-1);
 
-	while (!paraStack.empty())
+	while (!paraStack.empty()) 
 	{
 		int end = paraStack.top();
 		paraStack.pop();
@@ -180,10 +182,16 @@ void quickSort3(int *a, int size)
 			if (a[j] < x)
 			{
 				i++;
-				exch(a[i], a[j]);
+				int temp = a[i];
+				a[i] = a[j];
+				a[j] = temp;
+				//exch(a[i], a[j]);
 			}
 		}
-		exch(a[i+1], a[end]);
+		int temp = a[i+1];
+		a[i+1] = a[end];
+		a[end] = temp;
+		//exch(a[i+1], a[end]);
 		if (start < i)
 		{
 			mystack[++top]=start;
@@ -221,32 +229,32 @@ int main(int argc, const char * argv[])
     int *array = new int[ArrayLen];
 	clock_t startClock, endClock;
 
-    generateRandArray(array, ArrayLen);
+    //generateRandArray(array, ArrayLen);
 	startClock = clock();
     //selectionSort(array, ArrayLen);
     endClock = clock();
 	cout << "Selection Sort Time: " << endClock - startClock << endl;
 
 
-	generateRandArray(array, ArrayLen);
+	//generateRandArray(array, ArrayLen);
 	startClock = clock();
     //insertionSort(array, ArrayLen);
     endClock = clock();
 	cout << "Insertion Sort Time: " << endClock - startClock << endl;
     
-	generateRandArray(array, ArrayLen);
+	//generateRandArray(array, ArrayLen);
 	startClock = clock();
     //bubbleSort(array, ArrayLen);
     endClock = clock();
 	cout << "Bubble Sort Time: " << endClock - startClock << endl;
     
-	generateRandArray(array, ArrayLen);
+	//generateRandArray(array, ArrayLen);
 	startClock = clock();
     //shellSort(array, ArrayLen);
     endClock = clock();
 	cout << "Shell Sort Time: " << endClock - startClock << endl;
 
-	generateRandArray(array, ArrayLen);
+	//generateRandArray(array, ArrayLen);
 	startClock = clock();
     //quickSort(array, 0, ArrayLen-1);
 	endClock = clock();
@@ -254,12 +262,12 @@ int main(int argc, const char * argv[])
 
 	generateRandArray(array, ArrayLen);
 	startClock = clock();
-    //quickSort1(array, 0, ArrayLen-1);
+    quickSort1(array, 0, ArrayLen-1);
 	endClock = clock();
 	cout << "Quick Sort1 Time: " << endClock - startClock << endl;
 
 
-	generateRandArray(array, ArrayLen);
+	//generateRandArray(array, ArrayLen);
 	startClock = clock();
     //quickSort2(array, ArrayLen);
 	endClock = clock();
