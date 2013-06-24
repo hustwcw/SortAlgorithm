@@ -9,7 +9,7 @@
 #include <iostream>
 #include <ctime>
 #include <stack>
-
+#include <cstdlib>
 
 #define ArrayLen	0xffffff
 
