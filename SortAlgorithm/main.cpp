@@ -11,7 +11,7 @@
 #include <stack>
 
 
-#define ArrayLen	0xfffff
+#define ArrayLen	0xffffff
 
 
 using namespace std;
@@ -266,12 +266,11 @@ int main(int argc, const char * argv[])
 	cout << "Quick Sort1 Time: " << endClock - startClock << endl;
 
 
-	//generateRandArray(array, ArrayLen);
+	generateRandArray(array, ArrayLen);
 	startClock = clock();
-    //quickSort2(array, ArrayLen);
+    quickSort2(array, ArrayLen);
 	endClock = clock();
 	cout << "No Recursive Quick Sort Time(stl stack): " << endClock - startClock << endl;
-	//printArray(array, 30, "No Recursive Quick Sort");
 
 	generateRandArray(array, ArrayLen);
 	startClock = clock();
