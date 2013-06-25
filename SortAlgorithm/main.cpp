@@ -9,9 +9,9 @@
 #include <iostream>
 #include <ctime>
 #include <stack>
+#include <cstdlib>
 
-
-#define ArrayLen	0xfffff
+#define ArrayLen	0xffffff
 
 
 using namespace std;
