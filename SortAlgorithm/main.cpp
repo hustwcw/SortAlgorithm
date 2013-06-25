@@ -121,7 +121,6 @@ void quickSort1(int *a, int start, int end)
     {
         quickSort1(a, i+2, end);
     }
-    
 }
 
 void quickSort2(int *a, int size)
@@ -204,6 +203,31 @@ void quickSort3(int *a, int size)
 	}
 }
 
+
+void tailRecursiveQuickSort(int *a, int start, int end)
+{
+    while (start < end)
+    {
+        int x = a[end];
+        int i = start-1;
+        for (int j = start; j < end; j++)
+        {
+            if (a[j] < x)
+            {
+                i++;
+                exch(a[i], a[j]);
+            }
+        }
+        exch(a[i+1], a[end]);
+        if (start < i)
+        {
+            tailRecursiveQuickSort(a, start, i);
+        }
+        start = i+2;
+    }
+}
+
+
 void printArray(int *a, int length, string prefix)
 {
     cout << prefix.c_str();
@@ -266,12 +290,11 @@ int main(int argc, const char * argv[])
 	cout << "Quick Sort1 Time: " << endClock - startClock << endl;
 
 
-	//generateRandArray(array, ArrayLen);
+	generateRandArray(array, ArrayLen);
 	startClock = clock();
-    //quickSort2(array, ArrayLen);
+    quickSort2(array, ArrayLen);
 	endClock = clock();
 	cout << "No Recursive Quick Sort Time(stl stack): " << endClock - startClock << endl;
-	//printArray(array, 30, "No Recursive Quick Sort");
 
 	generateRandArray(array, ArrayLen);
 	startClock = clock();
@@ -279,6 +302,14 @@ int main(int argc, const char * argv[])
 	endClock = clock();
 	cout << "No Recursive Quick Sort Time(custom stack): " << endClock - startClock << endl;
 
+    
+    generateRandArray(array, ArrayLen);
+	startClock = clock();
+    tailRecursiveQuickSort(array, 0, ArrayLen-1);
+	endClock = clock();
+	cout << "Tail Recursive Quick Sort: " << endClock - startClock << endl;
+    
+    
 	system("pause");
     return 0;
 }
