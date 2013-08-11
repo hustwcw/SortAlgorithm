@@ -11,10 +11,17 @@
 #include <stack>
 #include <cstdlib>
 
-#define ArrayLen	0xffffff
+#define ArrayLen	0xfffff
 
 
 using namespace std;
+
+
+typedef struct tagListNode
+{
+	int value;
+	struct tagListNode *next;
+}ListNode;
 
 inline void exch(int &a, int &b)
 {
@@ -228,6 +235,82 @@ void tailRecursiveQuickSort(int *a, int start, int end)
 }
 
 
+
+// quick sort for single link list
+// head: first node
+// tail: next of the last node
+void quickSort(ListNode **head, ListNode **tail)
+{
+	ListNode *pj = (*head)->next;
+	// 遍历链表进行划分
+	ListNode *head1 = NULL, *head2 = NULL;
+	ListNode *tail1 = NULL, *tail2 = NULL;
+
+	while (pj != NULL)
+	{
+		(*head)->next = pj->next;
+		if (pj->value < (*head)->value)
+		{
+			if (head1 != NULL)
+			{
+				tail1->next = pj;
+			}
+			else
+			{
+				head1 = pj;
+			}
+			tail1 = pj;
+			tail1->next = NULL;
+		}
+		else
+		{
+			if (head2 != NULL)
+			{
+				tail2->next = pj;
+			}
+			else
+			{
+				head2 = pj;
+			}
+			tail2 = pj;
+			tail2->next = NULL;
+		}
+
+		pj = (*head)->next;
+	}
+
+
+	if (head1 != NULL && head1->next != NULL)
+	{
+		quickSort(&head1, &tail1);
+	}
+	if (head2 != NULL && head2->next != NULL)
+	{
+		quickSort(&head2, &tail2);
+	}
+
+	if (head1 != NULL)
+	{
+		tail1->next = *head;
+		(*head)->next = head2;
+		if (head2 != NULL)
+		{
+			*tail = tail2;
+		}
+		else
+		{
+			*tail = *head;
+		}
+		*head = head1;
+	}
+	else
+	{
+		(*head)->next = head2;
+		*tail = tail2;
+	}
+}
+
+
 void printArray(int *a, int length, string prefix)
 {
     cout << prefix.c_str();
@@ -245,10 +328,53 @@ void generateRandArray(int *array, int size)
 		array[i] = rand()+rand();
 	}
 }
+
+void generateRandSingleLinkList(ListNode **head, int size)
+{
+	*head = NULL;
+	ListNode *tail = *head;
+	while (size > 0)
+	{
+		ListNode *p = new ListNode;
+		p->next = NULL;
+		p->value = rand() + rand();
+		if (tail != NULL)
+		{
+			tail->next = p;
+			tail = p;
+		}
+		else
+		{
+			(*head) = p;
+			tail = p;
+		}
+		--size;
+	}
+}
+
+void TestQuickSortForSingleLinkList()
+{
+	ListNode *head, *tail;
+	generateRandSingleLinkList(&head, ArrayLen);
+	clock_t startClock, endClock;
+	startClock = clock();
+	quickSort(&head, &tail);
+	endClock = clock();
+	cout << "Quick Sort For Single Link List:\t" << endClock - startClock << endl;
+	//ListNode *p = head;
+	//int i = 0;
+	//while (p != NULL)
+	//{
+	//	cout << ++i << ":\t" << p->value << endl;
+	//	p = p->next;
+	//}
+}
+
 int main(int argc, const char * argv[])
 {
-    
-    // insert code here...
+	TestQuickSortForSingleLinkList();
+	
+
     int *array = new int[ArrayLen];
 	clock_t startClock, endClock;
 
