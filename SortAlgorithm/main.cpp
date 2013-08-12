@@ -238,7 +238,7 @@ void tailRecursiveQuickSort(int *a, int start, int end)
 
 // quick sort for single link list
 // head: first node
-// tail: next of the last node
+// tail: last node
 void quickSort(ListNode **head, ListNode **tail)
 {
 	ListNode *pj = (*head)->next;
@@ -260,7 +260,6 @@ void quickSort(ListNode **head, ListNode **tail)
 				head1 = pj;
 			}
 			tail1 = pj;
-			tail1->next = NULL;
 		}
 		else
 		{
@@ -273,18 +272,25 @@ void quickSort(ListNode **head, ListNode **tail)
 				head2 = pj;
 			}
 			tail2 = pj;
-			tail2->next = NULL;
 		}
 
 		pj = (*head)->next;
 	}
+	// 设置两个尾节点的next为NULL
+	if (tail1 != NULL)
+	{
+		tail1->next = NULL;
+	}
+	if (tail2 != NULL)
+	{
+		tail2->next = NULL;
+	}
 
-
-	if (head1 != NULL && head1->next != NULL)
+	if (head1 != tail1)
 	{
 		quickSort(&head1, &tail1);
 	}
-	if (head2 != NULL && head2->next != NULL)
+	if (head2 != tail2)
 	{
 		quickSort(&head2, &tail2);
 	}
@@ -352,10 +358,60 @@ void generateRandSingleLinkList(ListNode **head, int size)
 	}
 }
 
+
+void partition(ListNode** head, ListNode** tail)
+{
+	if(*head == *tail)return;
+
+	ListNode *small_head = NULL, *small_tail = NULL, *big_head = NULL, *big_tail = NULL, *tp = NULL;
+	ListNode **cur = &((*head)->next);
+	ListNode *end = (*tail)->next;
+
+	small_tail = small_head = NULL;
+	while(*cur != end)
+	{
+		if((*cur)->value >= (*head)->value)
+		{
+			big_tail = *cur;
+			cur = &((*cur)->next);
+		}
+		else{
+			tp = *cur;
+			*cur = (*cur)->next;
+			if(small_head == NULL)
+			{
+				small_head = small_tail = tp;
+				tp->next = NULL;
+			}else
+			{
+				small_tail->next = tp;
+				tp->next = NULL;
+			}
+		}
+	}
+	small_tail->next = *head;
+	big_head = (*head)->next;
+
+//注意这一段不能忘记，重新设置head和tail
+	*head = small_head;
+	*tail = big_tail;
+
+	partition(head, &small_tail);
+	partition(&big_head, tail);
+}
+
+
+
 void TestQuickSortForSingleLinkList()
 {
 	ListNode *head, *tail;
 	generateRandSingleLinkList(&head, ArrayLen);
+	//ListNode *p = head;
+	//while (p->next->next != NULL)
+	//{
+	//	p = p->next;
+	//}
+	//tail = p->next;
 	clock_t startClock, endClock;
 	startClock = clock();
 	quickSort(&head, &tail);
@@ -373,7 +429,8 @@ void TestQuickSortForSingleLinkList()
 int main(int argc, const char * argv[])
 {
 	TestQuickSortForSingleLinkList();
-	
+	system("pause");
+	return 0;
 
     int *array = new int[ArrayLen];
 	clock_t startClock, endClock;
