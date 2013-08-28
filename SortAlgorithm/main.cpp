@@ -475,61 +475,93 @@ void TestQuickSortForSingleLinkList()
 	//}
 }
 
+
+void TestInsertionSort()
+{
+    int *array = new int[ArrayLen];
+    clock_t startClock, endClock;
+	generateRandArray(array, ArrayLen);
+	startClock = clock();
+    insertionSort(array, ArrayLen);
+    endClock = clock();
+	cout << "Insertion Sort Time: " << endClock - startClock << endl;
+}
+
+
+void TestSelectionSort()
+{
+    int *array = new int[ArrayLen];
+    clock_t startClock, endClock;
+    generateRandArray(array, ArrayLen);
+	startClock = clock();
+    selectionSort(array, ArrayLen);
+    endClock = clock();
+	cout << "Selection Sort Time: " << endClock - startClock << endl;
+}
+
+
+void TestBubbleSort()
+{
+    int *array = new int[ArrayLen];
+    clock_t startClock, endClock;
+	generateRandArray(array, ArrayLen);
+	startClock = clock();
+    bubbleSort(array, ArrayLen);
+    endClock = clock();
+	cout << "Bubble Sort Time: " << endClock - startClock << endl;
+}
+
+
+void TestShellSort()
+{
+    int *array = new int[ArrayLen];
+    clock_t startClock, endClock;
+	generateRandArray(array, ArrayLen);
+	startClock = clock();
+    shellSort(array, ArrayLen);
+    endClock = clock();
+	cout << "Shell Sort Time: " << endClock - startClock << endl;
+}
+
+
 void TestMergeSort()
 {
-    int array[] = {5, 2, 4, 7, 1, 3, 2, 6};
-    // int *array = new int[10];
+    int *array = new int[ArrayLen];
     int *copy = new int[ArrayLen];
 
-    //generateRandArray(array, 10);
+    generateRandArray(array, ArrayLen);
     clock_t startClock = clock();
-    mergeSort(array, copy, 8);
+    mergeSort(array, copy, ArrayLen);
     clock_t endClock = clock();
     cout << "Merge Sort Time: " << endClock - startClock << endl;
-    printArray(array, 8, "");
 }
+
+void TestQuickSort()
+{
+    int *array = new int[ArrayLen];
+    clock_t startClock, endClock;
+	generateRandArray(array, ArrayLen);
+	startClock = clock();
+    quickSort(array, 0, ArrayLen-1);
+	endClock = clock();
+	cout << "Quick Sort Time: " << endClock - startClock << endl;
+}
+
 
 int main(int argc, const char * argv[])
 {
 	// TestQuickSortForSingleLinkList();
+    // TestSelectionSort();
+    // TestInsertionSort();
+    // TestBubbleSort();
+    TestShellSort();
     TestMergeSort();
+    TestQuickSort();
 	//system("pause");
 	return 0;
 
     int *array = new int[ArrayLen];
 	clock_t startClock, endClock;
-
-    //generateRandArray(array, ArrayLen);
-	startClock = clock();
-    //selectionSort(array, ArrayLen);
-    endClock = clock();
-	cout << "Selection Sort Time: " << endClock - startClock << endl;
-
-
-	//generateRandArray(array, ArrayLen);
-	startClock = clock();
-    //insertionSort(array, ArrayLen);
-    endClock = clock();
-	cout << "Insertion Sort Time: " << endClock - startClock << endl;
-    
-	//generateRandArray(array, ArrayLen);
-	startClock = clock();
-    //bubbleSort(array, ArrayLen);
-    endClock = clock();
-	cout << "Bubble Sort Time: " << endClock - startClock << endl;
-    
-	//generateRandArray(array, ArrayLen);
-	startClock = clock();
-    //shellSort(array, ArrayLen);
-    endClock = clock();
-	cout << "Shell Sort Time: " << endClock - startClock << endl;
-
-	//generateRandArray(array, ArrayLen);
-	startClock = clock();
-    //quickSort(array, 0, ArrayLen-1);
-	endClock = clock();
-	cout << "Quick Sort Time: " << endClock - startClock << endl;
-
 	generateRandArray(array, ArrayLen);
 	startClock = clock();
     quickSort1(array, 0, ArrayLen-1);
