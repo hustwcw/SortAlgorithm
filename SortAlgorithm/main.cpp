@@ -52,6 +52,53 @@ void insertionSort(int *a, int len)
     }
 }
 
+void merge(int *a, int *copy, int q, int len)
+{
+    if (len < 2) {
+        return;
+    }
+    
+    for (int i = 0; i < len; i++) {
+        copy[i] = a[i];
+    }
+
+    int i = 0;
+    int j = q;
+    int k = 0;
+    while (i < q && j < len)
+    {
+        if (copy[i] > copy[j]) {
+            a[k++] = copy[j++];
+        }
+        else
+        {
+            a[k++] = copy[i++];
+        }
+    }
+
+    while (i < q)
+    {
+        a[k++] = copy[i++];
+    }
+    while (j < len)
+    {
+        a[k++] = copy[j++];
+    }
+}
+// 归并排序
+void mergeSort(int *a, int *copy, int len)
+{
+    if (a == NULL || len < 2) {
+        return;
+    }
+
+    int q = (len >> 1);
+    mergeSort(a, copy, q);
+    mergeSort(a+q, copy+q, len-q);
+    merge(a, copy, q, len);
+}
+
+
 void bubbleSort(int *a, int len)
 {
     for (int i = len; i > 0; i--) {
@@ -62,6 +109,8 @@ void bubbleSort(int *a, int len)
         }
     }
 }
+
+
 void shellSort(int *a, int length)
 {
     int h = 1;
@@ -426,10 +475,25 @@ void TestQuickSortForSingleLinkList()
 	//}
 }
 
+void TestMergeSort()
+{
+    int array[] = {5, 2, 4, 7, 1, 3, 2, 6};
+    // int *array = new int[10];
+    int *copy = new int[ArrayLen];
+
+    //generateRandArray(array, 10);
+    clock_t startClock = clock();
+    mergeSort(array, copy, 8);
+    clock_t endClock = clock();
+    cout << "Merge Sort Time: " << endClock - startClock << endl;
+    printArray(array, 8, "");
+}
+
 int main(int argc, const char * argv[])
 {
-	TestQuickSortForSingleLinkList();
-	system("pause");
+	// TestQuickSortForSingleLinkList();
+    TestMergeSort();
+	//system("pause");
 	return 0;
 
     int *array = new int[ArrayLen];
@@ -493,7 +557,6 @@ int main(int argc, const char * argv[])
 	cout << "Tail Recursive Quick Sort: " << endClock - startClock << endl;
     
     
-	system("pause");
     return 0;
 }
 
