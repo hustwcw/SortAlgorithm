@@ -11,11 +11,13 @@
 #include <stack>
 #include <cstdlib>
 
-#define ArrayLen	0xfffff
+#define ArrayLen	0xffffff
 
 
 using namespace std;
 
+
+int value;
 
 typedef struct tagListNode
 {
@@ -54,10 +56,11 @@ void insertionSort(int *a, int len)
 
 void merge(int *a, int *copy, int q, int len)
 {
+   /* 
     if (len < 2) {
         return;
     }
-    
+    */
     for (int i = 0; i < len; i++) {
         copy[i] = a[i];
     }
@@ -92,6 +95,11 @@ void mergeSort(int *a, int *copy, int len)
         return;
     }
 
+    if (len < value) {
+        insertionSort(a, len);
+        return;
+    }
+    
     int q = (len >> 1);
     mergeSort(a, copy, q);
     mergeSort(a+q, copy+q, len-q);
@@ -550,11 +558,13 @@ void TestQuickSort()
 
 int main(int argc, const char * argv[])
 {
+    value = atoi(argv[1]);
+    cout << value << endl;
 	// TestQuickSortForSingleLinkList();
     // TestSelectionSort();
     // TestInsertionSort();
     // TestBubbleSort();
-    TestShellSort();
+    // TestShellSort();
     TestMergeSort();
     TestQuickSort();
 	//system("pause");

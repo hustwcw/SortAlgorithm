@@ -12,7 +12,9 @@
 #include <cstdlib>
 
 #define ArrayLen	0xfffff
-
+#define exch(a,b) int temp=a;\
+                  a = b;\
+                  b = temp;
 
 using namespace std;
 
@@ -22,14 +24,14 @@ typedef struct tagListNode
 	int value;
 	struct tagListNode *next;
 }ListNode;
-
+/*
 inline void exch(int &a, int &b)
 {
     int temp = a;
     a = b;
     b = temp;
 }
-
+*/
 void selectionSort(int *a, int len)
 {
     for (int i = 0; i < len; i++) {
@@ -370,7 +372,7 @@ void printArray(int *a, int length, string prefix)
 {
     cout << prefix.c_str();
     for (int i = 0; i < length; i++) {
-        cout << a[i] << "\t";
+        cout << a[i] << "\n";
     }
     cout << endl;
 }
@@ -449,6 +451,58 @@ void partition(ListNode** head, ListNode** tail)
 	partition(&big_head, tail);
 }
 
+
+void maxHeapify(int *a, int index, int size)
+{
+  int l = (index<<1)+1;
+  int r = (index<<1)+2;
+  int largest;
+  if (l < size && a[l] > a[index]) {
+    largest = l;
+  }
+  else
+  {
+    largest = index;
+  }
+  if (r < size && a[r] > a[largest]) {
+    largest = r;
+  }
+  if (largest != index) {
+    exch(a[index], a[largest]);
+    maxHeapify(a, largest, size);
+  }
+}
+
+void buildMaxHeap(int *a, int size)
+{
+  int count = size>>1;
+  for (int i = count-1; i > -1; i--) {
+    maxHeapify(a, i, size);
+  }
+}
+
+
+void heapSort(int *a, int size)
+{
+  buildMaxHeap(a, size);
+  int i = 0;
+  for (i = 0; i < size; i++) {
+    exch(a[0], a[size-i-1]);
+    maxHeapify(a, 0, size-i-1);
+  }
+}
+
+
+void TestHeapSort()
+{
+  int *array = new int[ArrayLen];
+  clock_t startClock, endClock;
+	generateRandArray(array, ArrayLen);
+	startClock = clock();
+  heapSort(array, ArrayLen);
+  endClock = clock();
+	cout << "Heap Sort Time: " << endClock - startClock << endl;
+}
 
 
 void TestQuickSortForSingleLinkList()
@@ -554,7 +608,8 @@ int main(int argc, const char * argv[])
     // TestSelectionSort();
     // TestInsertionSort();
     // TestBubbleSort();
-    TestShellSort();
+    //TestShellSort();
+    TestHeapSort();
     TestMergeSort();
     TestQuickSort();
 	//system("pause");
