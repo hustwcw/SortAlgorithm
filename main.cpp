@@ -456,13 +456,9 @@ void maxHeapify(int *a, int index, int size)
 {
   int l = (index<<1)+1;
   int r = (index<<1)+2;
-  int largest;
+  int largest = index;
   if (l < size && a[l] > a[index]) {
     largest = l;
-  }
-  else
-  {
-    largest = index;
   }
   if (r < size && a[r] > a[largest]) {
     largest = r;
